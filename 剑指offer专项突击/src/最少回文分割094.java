@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class 最少回文分割094 {
     public static void main(String[] args) {
-        new  最少回文分割094().getResByDP("aab");
+        new 最少回文分割094().getResByDP("aab");
     }
 
     public int getRes(String s) {
@@ -66,20 +66,19 @@ public class 最少回文分割094 {
     public int getResByDP(String s) {
         // 我们定义dp[i]: 将前i个字符（[0:i-1]) 分割为若干回文串的最小分割次数，那么最终答案为dp[n]。
         int[] dp = new int[s.length() + 1];
-
         dp[0] = 0;
         dp[1] = 0;
-
-        //2.
-        // dp[i] relation
-        // 如果前i个字符是回文的，则直接=0；
-        // 如果不是，那么就需要从左往右，依次判断【left，i-1】，如果被判断的是回文则，dp[i] = dp[left]+1，并且这里会有多种方案，我们要取最小的; 反正肯定是可以分割的，就是全部为单个字符；
+        //2.dp[i] 和前面的dp[i-1]关系
+        // 如果i个字符是回文的，则直接=0；
+        // 如果不是，那么dp[i]和dp[i-1]的关系在于，如后面这段字串如果为回文，则dp[i]=dp[i-1]+1;大概就是这个意思
+        // 从右向左依次判断，【left，i-1】（left是索引，left=i-1，left>=1）如果被判断的是回文则，dp[i] = dp[left]+1，并且这里会有多种方案，我们要取最小的;
+        // 反正肯定是可以分割的，就是全部为单个字符；
         for (int i = 2; i < dp.length; i++) {
-            dp[i] = i-1;
+            dp[i] = i - 1;
             if (isPalindrome(s.substring(0, i))) {
                 dp[i] = 0;
             } else {
-                for (int left = 1; left <= i - 1; left++) {
+                for (int left = i - 1; left >= 1; left--) {
                     if (isPalindrome(s.substring(left, i))) {
                         dp[i] = Math.min(dp[left] + 1, dp[i]);
                     }
