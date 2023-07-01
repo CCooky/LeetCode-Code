@@ -18,23 +18,21 @@ public class 整数除法001 {
             return Integer.MAX_VALUE; //越界1
         }
         // 记录正负数情况，我们全部变成负数，因为-128不能变成正数
-        boolean flag = false;
-        if (a > 0) {
-            a = -a;
-            flag = !flag;
+        boolean flag = true; //最后结果为负
+        if (a > 0 && b > 0 || a < 0 && b < 0) {
+            flag = false;
         }
-        if (b > 0) {
-            b = -b;
-            flag = !flag;
-        }
+        a = a > 0 ? -a : a;
+        b = b > 0 ? -b : b;
         // 计算结果，采用除数倍增法，直接每次乘以2倍增，对应的次数也是倍增的
         int ans = 0;
-        int tempAns = 0;
+        int tempAns;
         int divideB = b;
         // 每一轮找到该被除数下最大的那个可以减的数，必须是2倍增的即x2
         while (a <= b) { //必须是等于哦，a=b时
             tempAns = 1;
-            while (a <= (2*b)) { // 啊，我知道到了，这里当b为-2147483648时，执行这个就会溢出了
+//            while (a <= 2 * b) { // 啊，我知道到了，这里当b为-2147483648时，执行这个就会溢出了
+            while ((a - b) <= b) { // 这样就行了，所以有三个地方要解决溢出问题
                 b = 2 * b;
                 tempAns = 2 * tempAns;
             }
@@ -42,9 +40,8 @@ public class 整数除法001 {
             b = divideB;
             ans += tempAns;
         }
-        ans = flag ? -ans : ans;
+        ans = flag ? -ans : ans;  //这里对于-2147483648/1是如何处理的？
         System.out.println(ans);
         return ans;
     }
-
 }
