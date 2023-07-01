@@ -10,7 +10,7 @@ public class 和为k的子数组010_1 {
     }
 
     public int getRes(int[] nums, int k) {
-        // 连续子数组，可以滑动窗口，forwhile
+        // 元素非负且连续子数组，可以滑动窗口，forwhile
         int sum = 0;
         int start = 0; //start
         int ans = 0;
