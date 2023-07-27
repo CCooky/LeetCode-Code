@@ -2,23 +2,28 @@ import java.util.Scanner;
 
 public class 数字序列中某一位的数字 {
     public static void main(String[] args) {
+        System.out.println(10^2);
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         Solution40 solution40 = new Solution40();
-        solution40.findNthDigit(n);
+//        solution40.findNthDigit(n);
+        solution40.getResult(11);
     }
 }
 
 class Solution40 {
     public int getResult(int n) {
-        //根据n的大小，我们初始化一个字符串stringbuilder即可、
-        //n=3,我们就初始化0123；n是指的索引
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i <= n; i++) {
-            stringBuilder.append(i);
+        int t = 1; //当前的数位长度
+        int maxLen = 10; //当前数位长度下，最大字符序长度
+        while (n > maxLen) {
+            t++;
+            maxLen = (10 ^ t) * t - maxLen;
         }
-        char c = stringBuilder.charAt(n); //随机访问O（1）
-        return Integer.parseInt(String.valueOf(c));
+        StringBuilder stringb = new StringBuilder();
+        for (int i = 0; i < (10 ^ t); i++) {
+            stringb.append(String.valueOf(i));
+        }
+        return Integer.parseInt(String.valueOf(stringb.charAt(n)));
     }
 
     public int findNthDigit(int n) {
